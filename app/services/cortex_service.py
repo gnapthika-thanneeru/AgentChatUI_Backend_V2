@@ -8,6 +8,12 @@ load_dotenv()
 AGENT_API_KEY = os.getenv("AGENT_API_KEY")
 AGENT_API_URL = os.getenv("AGENT_API_URL")
 
+if not AGENT_API_KEY:
+    raise ValueError("AGENT_API_KEY not configured")
+
+if not AGENT_API_URL:
+    raise ValueError("AGENT_API_URL not configured")
+
 
 def call_cortex(question: str):
 
