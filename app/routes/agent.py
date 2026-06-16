@@ -7,9 +7,21 @@ router = APIRouter()
 
 # POC allowlist — lowercase. Add up to 10–15 emails here.
 ALLOWED_EMAILS = {
+    "xrsm@novonordisk.com",
     "okua@novonordisk.com",
+    "zukm@novonordisk.com",
     "ugtw@novonordisk.com",
-    "zukm@novonordisk.com"
+    "setn@novonordisk.com",
+    "sjmn@novonordisk.com",
+    "sgxq@novonordisk.com",
+    "skbt@novonordisk.com",
+    "lkqq@novonordisk.com",
+    "wrak@novonordisk.com",
+    "wpvm@novonordisk.com",
+    "wkom@novonordisk.com",
+    "vhpt@novonordisk.com",
+    "psie@novonordisk.com",
+    "frka@novonordisk.com"
 }
 
 POC_DENIED_MESSAGE = "This assistant is available for POC users only. Please contact the project team for access."
