@@ -5,7 +5,6 @@ from app.utils import job_store
 
 router = APIRouter()
 
-# POC allowlist — lowercase. Add up to 10-15 emails here.
 ALLOWED_EMAILS = {
     "xrsm@novonordisk.com",
     "okua@novonordisk.com",
@@ -26,27 +25,23 @@ ALLOWED_EMAILS = {
 POC_DENIED_MESSAGE = "This assistant is available for POC users only. Please contact the project team for access."
 
 
-# ---- ORIGINAL endpoint, UNCHANGED (kept as fallback) ----
 @router.post("/ask")
 async def ask_agent(request: AskRequest):
     email = (request.user_email or "").strip().lower()
     if email not in ALLOWED_EMAILS:
         return {"answer": POC_DENIED_MESSAGE}
-    return call_cortex(request.question)
+    return call_cortex(request.question, request.thread_id, request.parent_message_id)
 
 
-# ---- NEW: start an async job, return job_id immediately ----
 @router.post("/ask-async")
 async def ask_agent_async(request: AskRequest):
     email = (request.user_email or "").strip().lower()
     if email not in ALLOWED_EMAILS:
-        # Same allowlist behaviour; return denied as an immediately-complete result shape.
         return {"status": "done", "result": {"answer": POC_DENIED_MESSAGE}}
-    job_id = start_async_job(request.question)
+    job_id = start_async_job(request.question, request.thread_id, request.parent_message_id)
     return {"status": "pending", "job_id": job_id}
 
 
-# ---- NEW: poll job status/result ----
 @router.get("/status/{job_id}")
 async def get_status(job_id: str):
     job = job_store.get_job(job_id)
